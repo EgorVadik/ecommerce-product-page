@@ -155,3 +155,14 @@ function openMenu() {
 function closeMenu() {
     document.getElementById('menu').classList.add('hidden')
 }
+
+function navigateImgSmall(way) {
+    if (way === 'next') {
+        page.curr = page.curr + 1 === 5 ? 1 : page.curr + 1
+    } else {
+        page.curr = page.curr - 1 === 0 ? 4 : page.curr - 1
+    }
+
+    const imgContainer = document.getElementById('imgContainer')
+    imgContainer.src = `./images/image-product-${page.curr}.jpg`
+}

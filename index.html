@@ -280,7 +280,45 @@
                 </div>
             </div>
             <div class="grid md:grid-cols-2 gap-10 items-center">
-                <div class="m-auto">
+                <div class="m-auto relative">
+                    <button
+                        class="absolute top-1/2 bg-white z-40 rounded-full w-10 h-10 left-[20px] transform -translate-y-1/2 md:hidden"
+                        onclick="navigateImgSmall('prev')"
+                    >
+                        <svg
+                            width="12"
+                            height="18"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="m-auto"
+                        >
+                            <path
+                                d="M11 1 3 9l8 8"
+                                stroke="#000"
+                                stroke-width="3"
+                                fill="none"
+                                fill-rule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                    <button
+                        class="absolute top-1/2 bg-white rounded-full w-10 h-10 right-[20px] transform -translate-y-1/2 md:hidden"
+                        onclick="navigateImgSmall('next')"
+                    >
+                        <svg
+                            width="13"
+                            height="18"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="m-auto"
+                        >
+                            <path
+                                d="m2 1 8 8-8 8"
+                                stroke="#000"
+                                stroke-width="3"
+                                fill="none"
+                                fill-rule="evenodd"
+                            />
+                        </svg>
+                    </button>
                     <img
                         id="imgContainer"
                         src="./images/image-product-1.jpg"
