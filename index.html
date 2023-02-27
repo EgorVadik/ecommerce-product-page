@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="./images/favicon-32x32.png"
+        />
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <title>Frontend Mentor | E-commerce product page</title>
+
+        <script src="script.js" defer></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            kumbh: ['Kumbh Sans', 'sans-serif'],
+                        },
+                        colors: {
+                            orange: 'hsl(26, 100%, 55%)',
+                            paleOrange: 'hsl(25, 100%, 94%)',
+                            veryDarkBlue: 'hsl(220, 13%, 13%)',
+                            darkGrayishBlue: 'hsl(219, 9%, 45%)',
+                            grayishBlue: 'hsl(220, 14%, 75%)',
+                            lightGrayishBlue: 'hsl(223, 64%, 9%)',
+                            white: 'hsl(0, 0%, 100%)',
+                        },
+                    },
+                },
+            }
+        </script>
+    </head>
+    <body class="font-kumbh container md:m-auto relative">
+        <nav
+            class="flex items-center gap-5 md:gap-10 text-darkGrayishBlue border-b border-[#e9e8ec] px-7 md:px-0 py-6 md:py-0"
+        >
+            <button class="md:mb-4 block md:hidden" onclick="openMenu()">
+                <img src="./images/icon-menu.svg" alt="Menu Icon" />
+            </button>
+            <img
+                src="./images/logo.svg"
+                alt="Sneakers logo"
+                class="md:mb-4 cursor-pointer"
+            />
+            <ul class="md:flex gap-6 mr-auto hidden">
+                <li
+                    class="py-8 hover:border-b-4 md:mb-4 hover:mb-0 cursor-pointer hover:text-veryDarkBlue border-orange"
+                >
+                    Collections
+                </li>
+                <li
+                    class="py-8 hover:border-b-4 md:mb-4 hover:mb-0 cursor-pointer hover:text-veryDarkBlue border-orange"
+                >
+                    Men
+                </li>
+                <li
+                    class="py-8 hover:border-b-4 md:mb-4 hover:mb-0 cursor-pointer hover:text-veryDarkBlue border-orange"
+                >
+                    Women
+                </li>
+                <li
+                    class="py-8 hover:border-b-4 md:mb-4 hover:mb-0 cursor-pointer hover:text-veryDarkBlue border-orange"
+                >
+                    About
+                </li>
+                <li
+                    class="py-8 hover:border-b-4 md:mb-4 hover:mb-0 cursor-pointer hover:text-veryDarkBlue border-orange"
+                >
+                    Contact
+                </li>
+            </ul>
+
+            <button
+                onclick="showCart()"
+                class="md:mb-4 relative ml-auto md:ml-0"
+            >
+                <span
+                    id="cartQuantity"
+                    class="hidden absolute top-[-9px] z-20 bg-orange font-bold text-white px-2 text-xs rounded-full"
+                    >0</span
+                >
+                <img src="./images/icon-cart.svg" alt="Cart icon" />
+            </button>
+
+            <button
+                class="md:mb-4 w-8 md:w-12 rounded-full border-2 hover:border-orange"
+            >
+                <img src="./images/image-avatar.png" alt="Profile picture" />
+            </button>
+        </nav>
+
+        <div
+            id="menu"
+            class="w-3/4 bg-white fixed inset-0 font-bold hidden md:hidden"
+        >
+            <button class="mx-7 my-8" onclick="closeMenu()">
+                <img src="./images/icon-close.svg" alt="Close icon" />
+            </button>
+            <ul class="md:hidden grid px-7">
+                <li class="py-2 cursor-pointer">Collections</li>
+                <li class="py-2 cursor-pointer">Men</li>
+                <li class="py-2 cursor-pointer">Women</li>
+                <li class="py-2 cursor-pointer">About</li>
+                <li class="py-2 cursor-pointer">Contact</li>
+            </ul>
+            <div
+                class="bg-black min-h-screen w-1/4 fixed right-0 top-0 opacity-75"
+            ></div>
+        </div>
+
+        <div
+            id="cartContainer"
+            class="hidden absolute z-30 left-2 top-24 w-[95%] md:left-auto md:top-auto md:right-0 shadow-2xl md:w-fit rounded-md bg-white"
+        >
+            <p class="px-5 py-3 font-bold">Cart</p>
+            <hr />
+            <div class="flex p-5 gap-4">
+                <img
+                    id="prodImg"
+                    src="./images/image-product-1-thumbnail.jpg"
+                    alt=""
+                    class="w-12 rounded-md hidden"
+                />
+                <div class="flex items-center gap-4 w-full">
+                    <div class="text-darkGrayishBlue w-full md:w-fit">
+                        <p
+                            id="emptyCart"
+                            class="hidden text-center font-bold p-10"
+                        >
+                            Your cart is empty
+                        </p>
+                        <p id="prodName"></p>
+                        <span id="price"></span>
+                        <span id="total" class="text-black font-bold"></span>
+                    </div>
+                    <button onclick="deleteCart()" class="m-auto md:ml-0">
+                        <img
+                            id="delete"
+                            src="./images/icon-delete.svg"
+                            alt="delete icon"
+                            class="hidden"
+                        />
+                    </button>
+                </div>
+            </div>
+            <div class="px-5 pb-5">
+                <button
+                    id="checkOut"
+                    class="w-full bg-orange col-span-2 rounded-lg py-3 text-white font-bold hover:opacity-75 hidden"
+                >
+                    Check out
+                </button>
+            </div>
+        </div>
+
+        <main class="min-h-screen md:mt-24">
+            <div
+                id="lightbox"
+                class="hidden fixed inset-0 bg-black z-50 bg-opacity-75 min-h-screen items-center place-content-center"
+            >
+                <button id="close" class="ml-auto mb-3">
+                    <svg
+                        width="14"
+                        height="15"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="group"
+                    >
+                        <path
+                            d="m11.596.782 2.122 2.122L9.12 7.499l4.597 4.597-2.122 2.122L7 9.62l-4.595 4.597-2.122-2.122L4.878 7.5.282 2.904 2.404.782l4.595 4.596L11.596.782Z"
+                            fill="#FFF"
+                            fill-rule="evenodd"
+                            class="group-hover:fill-orange"
+                        />
+                    </svg>
+                </button>
+                <div class="relative">
+                    <button
+                        class="absolute top-1/2 bg-white rounded-full w-10 h-10 left-[-20px] transform -translate-y-1/2"
+                        onclick="navigateImg('prev')"
+                    >
+                        <svg
+                            width="12"
+                            height="18"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="m-auto"
+                        >
+                            <path
+                                d="M11 1 3 9l8 8"
+                                stroke="#000"
+                                stroke-width="3"
+                                fill="none"
+                                fill-rule="evenodd"
+                            />
+                        </svg>
+                    </button>
+
+                    <button
+                        class="absolute top-1/2 bg-white rounded-full w-10 h-10 right-[-20px] transform -translate-y-1/2"
+                        onclick="navigateImg('next')"
+                    >
+                        <svg
+                            width="13"
+                            height="18"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="m-auto"
+                        >
+                            <path
+                                d="m2 1 8 8-8 8"
+                                stroke="#000"
+                                stroke-width="3"
+                                fill="none"
+                                fill-rule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                    <img
+                        id="lightboxImgContainer"
+                        src="./images/image-product-1.jpg"
+                        alt=""
+                        class="rounded-xl w-[500px] cursor-pointer"
+                    />
+                </div>
+                <div class="flex mt-8">
+                    <div
+                        id="lightboxImg1"
+                        class="border-2 border-orange rounded-lg cursor-pointer lightboxThumbnail mr-auto"
+                    >
+                        <img
+                            src="./images/image-product-1-thumbnail.jpg"
+                            alt=""
+                            class="w-[90px] rounded-lg opacity-40"
+                        />
+                    </div>
+
+                    <div
+                        id="lightboxImg2"
+                        class="border-orange rounded-lg cursor-pointer lightboxThumbnail m-auto"
+                    >
+                        <img
+                            src="./images/image-product-2-thumbnail.jpg"
+                            alt=""
+                            class="w-[90px] rounded-lg"
+                        />
+                    </div>
+
+                    <div
+                        id="lightboxImg3"
+                        class="border-orange rounded-lg cursor-pointer lightboxThumbnail m-auto"
+                    >
+                        <img
+                            src="./images/image-product-3-thumbnail.jpg"
+                            alt=""
+                            class="w-[90px] rounded-lg"
+                        />
+                    </div>
+
+                    <div
+                        id="lightboxImg4"
+                        class="border-orange rounded-lg cursor-pointer lightboxThumbnail ml-auto"
+                    >
+                        <img
+                            src="./images/image-product-4-thumbnail.jpg"
+                            alt=""
+                            class="w-[90px] rounded-lg"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-10 items-center">
+                <div class="m-auto">
+                    <img
+                        id="imgContainer"
+                        src="./images/image-product-1.jpg"
+                        alt=""
+                        class="md:rounded-xl w-[500px] cursor-pointer"
+                    />
+                    <div class="hidden md:flex mt-8">
+                        <div
+                            id="img1"
+                            class="border-2 border-orange rounded-lg cursor-pointer thumbnail mr-auto"
+                        >
+                            <img
+                                src="./images/image-product-1-thumbnail.jpg"
+                                alt=""
+                                class="w-[90px] rounded-lg opacity-40"
+                            />
+                        </div>
+
+                        <div
+                            id="img2"
+                            class="border-orange rounded-lg cursor-pointer thumbnail m-auto"
+                        >
+                            <img
+                                src="./images/image-product-2-thumbnail.jpg"
+                                alt=""
+                                class="w-[90px] rounded-lg"
+                            />
+                        </div>
+
+                        <div
+                            id="img3"
+                            class="border-orange rounded-lg cursor-pointer thumbnail m-auto"
+                        >
+                            <img
+                                src="./images/image-product-3-thumbnail.jpg"
+                                alt=""
+                                class="w-[90px] rounded-lg"
+                            />
+                        </div>
+
+                        <div
+                            id="img4"
+                            class="border-orange rounded-lg cursor-pointer thumbnail ml-auto"
+                        >
+                            <img
+                                src="./images/image-product-4-thumbnail.jpg"
+                                alt=""
+                                class="w-[90px] rounded-lg"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-2/3 px-7 md:px-0">
+                    <h3
+                        class="text-orange font-bold tracking-widest uppercase text-xs mb-3"
+                    >
+                        Sneaker Company
+                    </h3>
+                    <h1 class="text-veryDarkBlue text-3xl font-bold">
+                        Fall Limited Edition Sneakers
+                    </h1>
+                    <p class="text-darkGrayishBlue py-6">
+                        These low-profile sneakers are your perfect casual wear
+                        companion. Featuring a durable rubber outer sole,
+                        they'll withstand everything the weather can offer.
+                    </p>
+                    <div class="md:block flex items-center">
+                        <div class="flex items-center">
+                            <p class="text-3xl font-bold mr-5">$125.00</p>
+                            <p
+                                class="bg-paleOrange rounded-md px-2 py-1 text-orange font-bold"
+                            >
+                                50%
+                            </p>
+                        </div>
+                        <p
+                            class="ml-auto md:ml-0 text-grayishBlue line-through font-bold"
+                        >
+                            $250.00
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3">
+                        <div class="flex items-center p-8 md:p-0">
+                            <button onclick="changeQuantity(-1)">
+                                <img
+                                    src="./images/icon-minus.svg"
+                                    alt="Minus icon"
+                                />
+                            </button>
+                            <span
+                                id="quantity"
+                                class="font-bold md:mx-10 m-auto"
+                                >0</span
+                            >
+                            <button onclick="changeQuantity(1)">
+                                <img
+                                    src="./images/icon-plus.svg"
+                                    alt="Plus icon"
+                                />
+                            </button>
+                        </div>
+                        <button
+                            onclick="addToCart()"
+                            class="bg-orange md:col-span-2 rounded-lg py-3 text-white font-bold hover:opacity-75 mb-20 md:mb-0"
+                        >
+                            <div
+                                class="flex items-center place-content-center gap-3"
+                            >
+                                <svg
+                                    width="22"
+                                    height="20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M20.925 3.641H3.863L3.61.816A.896.896 0 0 0 2.717 0H.897a.896.896 0 1 0 0 1.792h1l1.031 11.483c.073.828.52 1.726 1.291 2.336C2.83 17.385 4.099 20 6.359 20c1.875 0 3.197-1.87 2.554-3.642h4.905c-.642 1.77.677 3.642 2.555 3.642a2.72 2.72 0 0 0 2.717-2.717 2.72 2.72 0 0 0-2.717-2.717H6.365c-.681 0-1.274-.41-1.53-1.009l14.321-.842a.896.896 0 0 0 .817-.677l1.821-7.283a.897.897 0 0 0-.87-1.114ZM6.358 18.208a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm10.015 0a.926.926 0 0 1 0-1.85.926.926 0 0 1 0 1.85Zm2.021-7.243-13.8.81-.57-6.341h15.753l-1.383 5.53Z"
+                                        fill="#FFF"
+                                        fill-rule="nonzero"
+                                    />
+                                </svg>
+                                Add to cart
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
